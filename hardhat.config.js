@@ -3,8 +3,7 @@ require("@chainlink/env-enc").config();
 
 const SEPOLIA_URL = process.env.SEPOLIA_URL;
 const PROJECT_KEY = process.env.PROJECT_KEY;
-
-console.log('SEPOLIA_URL', SEPOLIA_URL)
+const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -12,12 +11,16 @@ module.exports = {
   networks: {
     sepolia: {
       url: SEPOLIA_URL,
-      accounts: [PROJECT_KEY]
+      accounts: [PROJECT_KEY],
+      chainId: 11155111
     }
   },
   etherscan: {
-    // key待定 因为被https://etherscan.io/制裁了
-    // userName: xiaoyue
-    apiKey: ""
+    // https://etherscan.io
+    // userName: xaioli
+    apiKey: ETHERSCAN_KEY
   },
+  sourcify: {
+    enabled: true
+  }
 };

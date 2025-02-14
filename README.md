@@ -30,3 +30,9 @@ npx hardhat run script/deployFundMe --networks sepolia
 使用就和.env相同
 ```
 
+### 在hardhat中如何对合约进行验证
+```
+npx hardhat verify --network sepolia 部署地址 "初始传入信息"
+npx hardhat verify --network sepolia 0x1cE81d8a865aFa954F1341241c5b32Fec16C6E00 "10"
+```
+
