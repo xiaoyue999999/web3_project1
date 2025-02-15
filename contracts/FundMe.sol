@@ -16,7 +16,7 @@ import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/shared/inte
 // payable 转账需要使用
 
 contract FundMe {
-    AggregatorV3Interface internal dataFeed;
+    AggregatorV3Interface public dataFeed;
 
     // 构造函数  只有初始会执行
     constructor(uint256 _lockTime) {
