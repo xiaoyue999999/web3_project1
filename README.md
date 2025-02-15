@@ -36,3 +36,23 @@ npx hardhat verify --network sepolia 部署地址 "初始传入信息"
 npx hardhat verify --network sepolia 0x1cE81d8a865aFa954F1341241c5b32Fec16C6E00 "10"
 ```
 
+### 使用hardhat可以把方法抽为task
+````
+命令为 npx hardhat help
+不携带参数使用命令
+npx hardhat name --network sepolia
+携带参数
+npx hardhat name --addr 参数 --network sepolia
+
+自定义
+task("name", "描述").setAction((taskArgs, hre) => {});
+// 增加参数
+task("name"", "描述").addParam("addr", "描述").setAction((taskArgs, hre) => {
+     const fundMeFactory = await ethers.getContractFactory("FundMe");
+     // attach
+     const fundMe = fundMeFactory.attach(taskArgs.addr); // 贴到地址中
+});
+
+
+````
+
