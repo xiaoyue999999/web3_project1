@@ -1,5 +1,5 @@
 const PRECISION = 8; // 设置精度
-const ETH_DEFAULT = 3000; // 设置ETH默认值
+const ETH_DEFAULT = 300000000000; // 设置ETH默认值
 
 const developList = ['hardhat', 'last']; // 测试本地 name地址
 

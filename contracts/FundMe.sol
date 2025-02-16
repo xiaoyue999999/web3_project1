@@ -27,7 +27,7 @@ contract FundMe {
     // 最小投资单位 使用的主链的数量来进行对比 不是使用USD
     // 10的18次方等于1个ETH
     // uint256 REQUIRE_VALUE = 1 * 10 ** 18; // 至少1个ETH
-    uint256 constant REQUIRE_VALUE = 1 * 10 ** 18; // 至少需要一个USD
+    uint256 constant REQUIRE_VALUE = 100 * 10 ** 18; // 至少需要100USD
 
     uint256 constant TARGET = 1000 * 10 ** 18; // 1000美刀目标
 
@@ -46,6 +46,10 @@ contract FundMe {
 
     bool public getFundSuccess = false;
 
+    // 使用emit形式发送数据，算是通知其他合约交互
+    // 算是log日志信息
+    event FundWithdrawByOwner(uint256);
+
     // 转账
     function fund () external payable {
         // 最小值判断
@@ -61,8 +65,10 @@ contract FundMe {
         require(balanceMoney >= TARGET, "no 1000$");
 
         bool success;
-        (success,) = payable(owner).call{value: address(this).balance}("");
+        uint256 balance = address(this).balance;
+        (success,) = payable(owner).call{value: balance}("");
         getFundSuccess = true;
+        emit FundWithdrawByOwner(balance);
     }
 
     // 在锁定期内 没有达到目标 给用户退款

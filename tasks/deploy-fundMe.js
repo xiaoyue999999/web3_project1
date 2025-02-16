@@ -24,7 +24,7 @@ task("deploy-fundMe", "部署验证fundme合约").setAction(async (taskArgs, hre
 });
 
 // 使用代码的形式验证合约
-async function verifyFundMe (address, args) {
+async function verifyFundMe(address, args) {
   await hre.run("verify:verify", {
     address,
     constructorArguments: args,

@@ -6,8 +6,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { firstAccount } = await getNamedAccounts();
   const { deploy } = deployments;
 
+  // 当前网络环境
+  const developCurrent = developList.includes(network.name);
+
   let dataFeedAddr;
-  if (developList.includes(network.name)) {
+  if (developCurrent) {
     const mockAggregator = await deployments.get("MockV3Aggregator");
     dataFeedAddr = mockAggregator.address;
   } else {
@@ -19,7 +22,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     from: firstAccount,
     args: [fundMeContinueTime, dataFeedAddr],
     log: true,
-    waitConfirmations: 3 // 等待三个区块
+    waitConfirmations: developCurrent ? 0 : 3 // 等待三个区块
   });
 
   // 验证合约
