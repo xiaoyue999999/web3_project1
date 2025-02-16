@@ -1,9 +1,7 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
-
 
 // 主要目的是收款
 /*
@@ -19,11 +17,11 @@ contract FundMe {
     AggregatorV3Interface public dataFeed;
 
     // 构造函数  只有初始会执行
-    constructor(uint256 _lockTime) {
+    constructor(uint256 _lockTime, address defaAddr) {
         lockTime = _lockTime;
         deployTime = block.timestamp;
         owner = msg.sender;
-        dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306); //获取ETH链上地址初始化
+        dataFeed = AggregatorV3Interface(defaAddr); //获取ETH链上地址初始化
     }
 
     // 最小投资单位 使用的主链的数量来进行对比 不是使用USD

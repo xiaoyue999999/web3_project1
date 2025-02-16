@@ -69,3 +69,17 @@ task("name"", "描述").addParam("addr", "描述").setAction((taskArgs, hre) => 
 创建专属文件夹 test 
 启动命令为 npx hardhat test
 ```
+
+### 使用mock合约
+```
+创建正常是在contracts中创建mock文件
+正常使用deploy进行文件的部署
+
+在其他合约中使用
+const mockAggregator = await deployments.get("MockV3Aggregator");
+dataFeedAddr = mockAggregator.address;
+```
+
+### 合约被缓存
+`可以在命令行后面加上 --reset`
+`npx hardhat deploy --network sepolia --reset`
