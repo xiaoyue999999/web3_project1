@@ -19,7 +19,6 @@ npx hardhat run script/deployFundMe --networks sepolia
 ### 运行命令为 npx hardhat run script/deployFundMe
 ```项目是需要在scripts中进行启动```
 
-
 ## 使用 .env.enc加密方式保存url 以及私钥
 ```
 下载 npm install @chainlink/env-enc
@@ -39,7 +38,7 @@ npx hardhat verify --network sepolia 0x1cE81d8a865aFa954F1341241c5b32Fec16C6E00 
 ```
 
 ### 使用hardhat可以把方法抽为task
-````
+```
 命令为 npx hardhat help
 不携带参数使用命令
 npx hardhat name --network sepolia
@@ -54,7 +53,19 @@ task("name"", "描述").addParam("addr", "描述").setAction((taskArgs, hre) => 
      // attach
      const fundMe = fundMeFactory.attach(taskArgs.addr); // 贴到地址中
 });
+```
 
+### 使用hardhat-deploy部署脚本
+```
+下载 npm install -D hardhat-deploy
+执行命令为 npx hardhat deploy
 
-````
+创建专属文件夹 deploy
+```
 
+### 使用test测试编写使用测试用例
+```
+使用chai进行编写测试用例。
+创建专属文件夹 test 
+启动命令为 npx hardhat test
+```

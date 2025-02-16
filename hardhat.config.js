@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("hardhat-deploy");
 require("@chainlink/env-enc").config();
 require('./tasks/index');
 
@@ -24,5 +25,13 @@ module.exports = {
   },
   sourcify: {
     enabled: true
+  },
+  namedAccounts: {
+    firstAccount: {
+      default: 0, // 去寻找数组中的第一项元素命名accounts
+    },
+    seconAccount: {
+      default: 1, // 寻找第二项
+    }
   }
 };
