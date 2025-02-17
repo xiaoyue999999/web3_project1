@@ -83,3 +83,10 @@ dataFeedAddr = mockAggregator.address;
 ### 合约被缓存
 `可以在命令行后面加上 --reset`
 `npx hardhat deploy --network sepolia --reset`
+
+### 命令工具
+```
+使用 hardhat-gas-reporter  可以看到执行单元测试的时候 使用的gas费用
+
+以及使用npx hardhat coverage 可以看到自己单元测试的覆盖量
+```

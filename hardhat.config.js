@@ -13,6 +13,9 @@ const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.28",
+  mocha: {
+    timeout: 300000
+  },
   networks: {
     sepolia: {
       url: SEPOLIA_URL,
