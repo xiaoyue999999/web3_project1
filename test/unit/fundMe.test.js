@@ -2,11 +2,12 @@ const { ethers, deployments, getNamedAccounts } = require('hardhat');
 const { assert, expect } = require("chai");
 const helpers = require("@nomicfoundation/hardhat-network-helpers")
 
+// 单元测试
 describe("验证fundMe合约", async () => {
   let fundMe;
   let fundMeSecondAccount;
   let firstAccount;
-  let dataFeedObj;
+  let MockV3Aggregator;
   beforeEach(async () => {
     // 部署合约
     await deployments.fixture(["all"]);
@@ -16,7 +17,7 @@ describe("验证fundMe合约", async () => {
     const seconAccount = (await getNamedAccounts())?.seconAccount;
     // 获取已经部署的合约信息
     const fundMeObj = await deployments.get("FundMe");
-    dataFeedObj = await deployments.get("MockV3Aggregator");
+    MockV3Aggregator = await deployments.get("MockV3Aggregator");
 
     // 获取FundMe的实例
     fundMe = await ethers.getContractAt("FundMe", fundMeObj.address);
@@ -32,7 +33,7 @@ describe("验证fundMe合约", async () => {
   it('验证 sepolia地址 是否与使用地址相同', async () => {
     await fundMe.waitForDeployment();
 
-    assert.equal(await fundMe.dataFeed(), dataFeedObj.address);
+    assert.equal(await fundMe.dataFeed(), MockV3Aggregator.address);
   });
 
   // 单元测试
@@ -84,5 +85,38 @@ describe("验证fundMe合约", async () => {
     await helpers.mine();
 
     await expect(fundMe.getFund()).to.emit(fundMe, 'FundWithdrawByOwner').withArgs(ethers.parseEther("1"));
+  });
+
+  // 验证reFund函数
+  // 时间范围以外、小于目标值也会报错、sender 大于0
+  it("时间范围以内 error reFund", async () => {
+    await expect(fundMe.reFund()).to.be.revertedWith("window is time close");
+  });
+
+  it("大于目标值 error reFund", async () => {
+    await fundMe.fund({ value: ethers.parseEther("1") });
+
+    await helpers.time.increase(2000);
+    await helpers.mine();
+
+    await expect(fundMe.reFund()).to.be.revertedWith("no satisfy money");
+  });
+
+  it("小于目标值，但是自己sender值不为0 error reFund", async () => {
+    await fundMe.fund({ value: ethers.parseEther("0.1") });
+
+    await helpers.time.increase(2000);
+    await helpers.mine();
+
+    await expect(fundMeSecondAccount.reFund()).to.be.revertedWith("no money")
+  });
+
+  it("refund函数 全部必填都可以过 success", async () => {
+    await fundMe.fund({ value: ethers.parseEther("0.1") });
+
+    await helpers.time.increase(2000);
+    await helpers.mine();
+
+    await expect(fundMe.reFund()).to.emit(fundMe, 'ReFundByFunder').withArgs(firstAccount, ethers.parseEther("0.1"));
   });
 });

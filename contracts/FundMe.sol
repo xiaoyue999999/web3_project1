@@ -49,6 +49,7 @@ contract FundMe {
     // 使用emit形式发送数据，算是通知其他合约交互
     // 算是log日志信息
     event FundWithdrawByOwner(uint256);
+    event ReFundByFunder(address, uint256);
 
     // 转账
     function fund () external payable {
@@ -73,7 +74,7 @@ contract FundMe {
 
     // 在锁定期内 没有达到目标 给用户退款
     function reFund() external windowClose {
-        require(address(this).balance < TARGET, "no satisfy money");
+        require(convertEthtoUsd(address(this).balance) < TARGET, "no satisfy money");
         require(fundersToMoney[msg.sender] > 0, "no money");
 
         uint256 money = fundersToMoney[msg.sender];
@@ -81,6 +82,7 @@ contract FundMe {
         bool success;
         (success,) = payable(msg.sender).call{value: money}("");
         require(success, "transfer tx error");
+        emit ReFundByFunder(msg.sender, money);
     }
 
     // owner提款
