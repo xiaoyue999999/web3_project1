@@ -12,7 +12,7 @@ const developObj = {
 }
 
 // fundMe部署中常量定义
-const fundMeContinueTime = 1800;
+const fundMeContinueTime = 180;
 
 module.exports = {
   PRECISION,

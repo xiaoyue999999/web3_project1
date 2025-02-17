@@ -1,9 +1,10 @@
 const { ethers, deployments, getNamedAccounts } = require('hardhat');
 const { assert, expect } = require("chai");
 const helpers = require("@nomicfoundation/hardhat-network-helpers")
+const { developList } = require("../../help-hardhat.config");
 
 // 单元测试
-describe("验证fundMe合约", async () => {
+!developList.includes(network.name) ? describe.skip : describe("验证fundMe合约", async () => {
   let fundMe;
   let fundMeSecondAccount;
   let firstAccount;
