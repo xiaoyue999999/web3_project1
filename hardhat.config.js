@@ -18,7 +18,7 @@ module.exports = {
   },
   networks: {
     sepolia: {
-      url: SEPOLIA_URL,
+      url: SEPOLIA_URL, // 讲合约部署到线上环境
       accounts: [PROJECT_KEY, PROJECT_KEY_1],
       chainId: 11155111
     }
